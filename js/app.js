@@ -10,7 +10,7 @@ function ingresarNombre() {
             hayError = 'DATOS INCORRECTOS - ';
         }
 
-    }while(nom == '')
+    }while(nom == '' || nom == null)
 
     return nom;
 }
@@ -21,10 +21,12 @@ function ingresarNota(i) {
     
     do{
         nota = parseFloat(prompt(hayError + 'Ingrese la nota de la ' + i + '° evalucion:'));
+
         if (isNaN(nota)){
             hayError = 'DATOS INCORRECTOS - ';
             nota = -1;
         }
+        
     }while(nota < 0 || nota > 10)
 
     return nota;
