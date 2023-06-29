@@ -1,36 +1,28 @@
 class Alumno {
-    nombre = '';
+    nombre;
     nota = [];
    
-    constructor(nombre) {
-        this.nombre = nombre;
-        this.nota.push(5);
-        this.nota.push(8);
+    constructor() {
+        this.nombre = this.ingresarNombre();
     }
 
-    getResumen = function () {
-        let respuesta;
-
-        respuesta = `ALUMNO ${this.nombre.toUpperCase()} \n`;
-
-        this.nota.forEach((valor, index) => {
-            respuesta = respuesta + `Nota ${index+1}: ${valor} `;
-        });
-
-        return respuesta;
+    ingresarNombre = function() {
+        let nom;
+        let hayError = '';
+    
+        do{
+            nom = prompt(hayError + 'Ingrese el nombre del alumno:');
+    
+            if (nom == '' || nom == null){
+                hayError = 'DATOS INCORRECTOS - ';
+            }
+    
+        }while(nom == '' || nom == null)
+    
+        return nom;
     }
 
-    getPromedio = function (){
-
-        const suma = this.nota.reduce(
-            (total, valor) => total + valor, 0
-        );
-
-        return suma / this.nota.length;
-
-    }
-
-    ingresarNota = function () {
+    ingresarNota = function() {
         let valor;
         let hayError = '';
         
@@ -39,12 +31,33 @@ class Alumno {
     
             if (isNaN(valor)){
                 hayError = 'DATOS INCORRECTOS - ';
-                nota = -1;
+                valor = -1;
             }
             
         }while(valor < 0 || valor > 10)
     
         this.nota.push(valor);
+    }
+
+    getResumen = function() {
+        let respuesta;
+
+        respuesta = `\n\nALUMNO ${this.nombre.toUpperCase()} \n`;
+
+        this.nota.forEach((valor, index) => {
+            respuesta = respuesta + `Nota ${index+1}: ${valor} `;
+        });
+
+        return respuesta;
+    }
+
+    getPromedio = function() {
+
+        const suma = this.nota.reduce(
+            (total, valor) => total + valor, 0
+        );
+
+        return suma / this.nota.length;
     }
 
 }
