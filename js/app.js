@@ -1,4 +1,3 @@
-
 function ingresarNombre() {
     let nom = '';
     let hayError = '';
@@ -15,57 +14,33 @@ function ingresarNombre() {
     return nom;
 }
 
-function ingresarNota(i) {
-    let nota = -1;
-    let hayError = '';
-    
-    do{
-        nota = parseFloat(prompt(hayError + 'Ingrese la nota de la ' + i + '° evalucion:'));
 
-        if (isNaN(nota)){
-            hayError = 'DATOS INCORRECTOS - ';
-            nota = -1;
-        }
-        
-    }while(nota < 0 || nota > 10)
-
-    return nota;
-}
-
-function getPromedio(nota1, nota2) {
-    return (nota1 + nota2) / 2;
-}
-
-
-let respuesta = ''
-let nombre = '';
-let nota1 = 0;
-let nota2 = 0;
+let respuesta = '';
+let nombre;
 const CANT = 2;
+
+const alumnos = [];
 
 do {
     nombre = ingresarNombre();
 
-    for (let i = 1 ; i <= CANT; i++)
+    alumnos.push(new Alumno(nombre));
+
+    console.log(alumnos);
+
+    alumnos[alumnos.length-1].getPromedio();
+
+    /* for (let i = 0 ; i < CANT; i++)
     {
-        switch(i) {
-
-            case 1: 
-                    nota1 = ingresarNota(i);
-                    break;
-            case 2:
-                    nota2 = ingresarNota(i);
-                    break;
-            default:
-        }
+        console.log(i);
+        alumnos[alumnos.length-1].ingresarNota();
     }
+ */
 
-    respuesta = respuesta + 'ALUMNO ' + nombre.toUpperCase() + '\nNota 1: ' + nota1 + ' Nota 2: ' + nota2;
-    respuesta = respuesta  + ' | Promedio: ' + getPromedio(nota1, nota2) + '\n';
-
-    console.log(respuesta);
+    // console.log(respuesta);
+    console.log(alumnos);
     continuar = prompt('Desea cargar los datos de otro alumno? si/no');
 
 }while(continuar.toLowerCase() == 'si');
 
-alert('------DATOS INGRESADOS--------\n\n' + respuesta);
+alert('------DATOS INGRESADOS--------\n\n' + alumnos[0].getResumen() + ' | Promedio: ' + alumnos[alumnos.length-1].getPromedio());
