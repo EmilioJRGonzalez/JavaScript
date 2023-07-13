@@ -1,20 +1,5 @@
 
-function getAprobados(alumnos) {
-    let resp;
-    const aprobados = alumnos.filter((alumno) => alumno.getPromedio() > 6);
-
-    if (aprobados.length > 0) {
-        resp = '\n\nALUMNOS APROBADOS:\n' ;
-        aprobados.forEach((aprobado) => {
-            resp = resp + aprobado.nombre.toUpperCase() + '; ' ;
-        });
-    } else {
-        resp = '\n\nNO HAY ALUMNOS APROBADOS';
-    }
-    return resp;
-}
-
-
+debugger;
 let respuesta = '';
 const CANT = 2;
 
@@ -28,9 +13,9 @@ const nombre = document.getElementById('inputNombre');
 const nota1 = document.getElementById('inputNota1');
 const nota2 = document.getElementById('inputNota2');
 
-alumnos.forEach((alumno) => {
-    respuesta = respuesta + alumno.getResumen() + ' | Promedio: ' + alumno.getPromedio();
-});
+// alumnos.forEach((alumno) => {
+//     respuesta = respuesta + alumno.getResumen() + ' | Promedio: ' + alumno.getPromedio();
+// });
 
 //alert('------DATOS INGRESADOS--------' + respuesta + getAprobados(alumnos));
 
@@ -45,9 +30,6 @@ function eventsListeners()
     frmAgregar.addEventListener('submit', (e) =>
     {
     e.preventDefault();
-
-
-    console.log(nota1.value);
 
     agregarAlumno();
 
@@ -102,11 +84,25 @@ function actualizarTabla(){
     tabla.innerHTML = output;
 }
 
+function getAprobados(alumnos) {
+    let resp;
+    const aprobados = alumnos.filter((alumno) => alumno.getPromedio() > 6);
+
+    if (aprobados.length > 0) {
+        resp = '\n\nALUMNOS APROBADOS:\n' ;
+        aprobados.forEach((aprobado) => {
+            resp = resp + aprobado.nombre.toUpperCase() + '; ' ;
+        });
+    } else {
+        resp = '\n\nNO HAY ALUMNOS APROBADOS';
+    }
+    return resp;
+}
+
 
 eventsListeners();
 
-traerAlumnos();
-
 console.log(alumnos);
+
 
 
