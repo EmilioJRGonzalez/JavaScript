@@ -18,23 +18,95 @@ function getAprobados(alumnos) {
 let respuesta = '';
 const CANT = 2;
 
-const alumnos = [];
+alumnos = [];
+notas = [];
 
-do {
-    alumnos.push(new Alumno());
-
-    for (let i = 0 ; i < CANT; i++)
-    {
-        alumnos[alumnos.length-1].ingresarNota();
-    }
-
-    console.log(alumnos);
-    continuar = prompt('Desea cargar los datos de otro alumno? si/no');
-
-}while(continuar.toLowerCase() == 'si');
+const tabla = document.getElementById('tabla');
+const frmAgregar = document.querySelector('#frmAgregar');
+const btnAgregar = document.querySelector('#btnAgregar');
+const nombre = document.getElementById('inputNombre');
+const nota1 = document.getElementById('inputNota1');
+const nota2 = document.getElementById('inputNota2');
 
 alumnos.forEach((alumno) => {
     respuesta = respuesta + alumno.getResumen() + ' | Promedio: ' + alumno.getPromedio();
 });
 
-alert('------DATOS INGRESADOS--------' + respuesta + getAprobados(alumnos));
+//alert('------DATOS INGRESADOS--------' + respuesta + getAprobados(alumnos));
+
+
+function eventsListeners()
+{
+  ////agregamos un escuchador del evento cuando el DOM se carga 
+  ////que traiga los items del localstorage a los arrays
+  document.addEventListener('DOMContentLoaded', traerAlumnos);
+
+    ///event listener de agregar un producto al carrito
+    frmAgregar.addEventListener('submit', (e) =>
+    {
+    e.preventDefault();
+
+
+    console.log(nota1.value);
+
+    agregarAlumno();
+
+    actualizarAlumnos();
+
+    console.log(alumnos);
+
+    limpiarFormulario(frmAgregar);
+
+    });
+
+}
+
+function agregarAlumno(){
+    const alumno = new Alumno(nombre.value);
+    alumno.ingresarNota(+nota1.value);
+    alumno.ingresarNota(+nota2.value);
+
+    alumnos.push(alumno);
+}
+
+function limpiarFormulario(formulario) {
+    formulario.reset(); //resetea el formulario
+}
+
+function traerAlumnos(){
+    alumnos = JSON.parse(localStorage.getItem('alumnos')) || [];
+
+    actualizarTabla();
+}
+
+function actualizarAlumnos(){
+    localStorage.setItem('alumnos',JSON.stringify(alumnos));
+
+    actualizarTabla();
+}
+
+function actualizarTabla(){
+    tabla.innerHTML = '';
+    output = ''
+    alumnos.forEach((item,index) => {
+        output = output + `
+                <tr>
+                    <th scope="row">${index+1}</th>
+                    <td>${item.nombre}</td>
+                    <td>${item.nota[0]}</td>
+                    <td>${item.nota[1]}</td>
+                </tr>
+                `;
+        }
+    );
+    tabla.innerHTML = output;
+}
+
+
+eventsListeners();
+
+traerAlumnos();
+
+console.log(alumnos);
+
+
