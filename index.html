@@ -7,24 +7,25 @@
     <title>Emilio Gonzalez | Proyecto</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/estilos.css">
 </head>
 
 
-<body>
+<body class="background">
 
     <div class="container shadow-lg p-5 mb-5 mt-5 bg-body rounded">
         <form class="row g-3" id="frmAgregar">
             <div class="col-12">
                 <label for="inputNombre" class="form-label">Nombre</label>
-                <input type="text" class="form-control" id="inputNombre">
+                <input type="text" class="form-control" id="inputNombre" required>
             </div>
             <div class="col-md-6">
                 <label for="inputNota1" class="form-label" id="nota1">Nota 1° parcial</label>
-                <input type="text" class="form-control" id="inputNota1">
+                <input type="text" class="form-control" id="inputNota1" required>
             </div>
             <div class="col-md-6">
                 <label for="inputNota2" class="form-label" id="nota2">Nota 2° parcial</label>
-                <input type="text" class="form-control" id="inputNota2">
+                <input type="text" class="form-control" id="inputNota2" required>
             </div>
 
             <div class="col-12">
@@ -41,11 +42,16 @@
                 <th scope="col">Nombre</th>
                 <th scope="col">Nota 1° parcial</th>
                 <th scope="col">Nota 2° parcial</th>
+                <th scope="col">Promedio</th>
             </tr>
             </thead>
             <tbody id="tabla">
             </tbody>
         </table>
+    </div>
+
+    <div class="container shadow-lg p-5 mb-5 bg-body rounded">
+        <h2 id="aprobados">NO HAY ALUMNOS APROBADOS</h2>
     </div>
 
 

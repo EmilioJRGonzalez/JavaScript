@@ -1,0 +1,4 @@
+.background {
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.6274509804), rgba(0, 0, 0, 0.5333333333)), url("../img/pexels-pixabay-356065.jpg");
+    /*height: 62vh;*/
+}

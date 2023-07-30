@@ -3,7 +3,7 @@ debugger;
 let respuesta = '';
 const CANT = 2;
 
-alumnos = [];
+const alumnos = [];
 notas = [];
 
 const tabla = document.getElementById('tabla');
@@ -12,13 +12,7 @@ const btnAgregar = document.querySelector('#btnAgregar');
 const nombre = document.getElementById('inputNombre');
 const nota1 = document.getElementById('inputNota1');
 const nota2 = document.getElementById('inputNota2');
-
-// alumnos.forEach((alumno) => {
-//     respuesta = respuesta + alumno.getResumen() + ' | Promedio: ' + alumno.getPromedio();
-// });
-
-//alert('------DATOS INGRESADOS--------' + respuesta + getAprobados(alumnos));
-
+const hAprobados = document.getElementById('aprobados');
 
 function eventsListeners()
 {
@@ -26,7 +20,7 @@ function eventsListeners()
   ////que traiga los items del localstorage a los arrays
   document.addEventListener('DOMContentLoaded', traerAlumnos);
 
-    ///event listener de agregar un producto al carrito
+    ///event listener de agregar un alumno a la grilla
     frmAgregar.addEventListener('submit', (e) =>
     {
     e.preventDefault();
@@ -56,7 +50,15 @@ function limpiarFormulario(formulario) {
 }
 
 function traerAlumnos(){
-    alumnos = JSON.parse(localStorage.getItem('alumnos')) || [];
+    alumnosStorage = JSON.parse(localStorage.getItem('alumnos')) || [];
+
+    alumnosStorage.forEach(item => {
+        const alumno = new Alumno(item.nombre);
+        alumno.ingresarNota(+item.nota[0]);
+        alumno.ingresarNota(+item.nota[1]);
+
+        alumnos.push(alumno);
+    });
 
     actualizarTabla();
 }
@@ -77,26 +79,35 @@ function actualizarTabla(){
                     <td>${item.nombre}</td>
                     <td>${item.nota[0]}</td>
                     <td>${item.nota[1]}</td>
+                    <td>${item.getPromedio()}</td>
                 </tr>
                 `;
         }
     );
     tabla.innerHTML = output;
+
+    // alumnos.forEach((alumno) => {
+    //     respuesta = respuesta + alumno.getResumen() + ' | Promedio: ' + alumno.getPromedio();
+    // });
+
+    getAprobados(alumnos)
 }
 
 function getAprobados(alumnos) {
+    hAprobados.innerHTML = '';
     let resp;
     const aprobados = alumnos.filter((alumno) => alumno.getPromedio() > 6);
 
     if (aprobados.length > 0) {
         resp = '\n\nALUMNOS APROBADOS:\n' ;
         aprobados.forEach((aprobado) => {
-            resp = resp + aprobado.nombre.toUpperCase() + '; ' ;
+            resp = resp + aprobado.nombre.toUpperCase() + ', ';
         });
     } else {
-        resp = '\n\nNO HAY ALUMNOS APROBADOS';
+        resp = '\n\nNO HAY ALUMNOS APROBADOS  ';
     }
-    return resp;
+
+    hAprobados.innerHTML=resp.slice(0, -2);;
 }
 
 
