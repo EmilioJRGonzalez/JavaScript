@@ -8,6 +8,8 @@ const nombre = document.getElementById('inputNombre');
 const nota1 = document.getElementById('inputNota1');
 const nota2 = document.getElementById('inputNota2');
 const hAprobados = document.getElementById('aprobados');
+const hCurso = document.getElementById('curso');
+const hProfesor = document.getElementById('profesor');
 
 
 function eventsListeners()
@@ -34,6 +36,8 @@ function eventsListeners()
         }
 
     });
+
+    callPromise();
 
 }
 
@@ -147,21 +151,36 @@ function getAprobados(alumnos) {
     hAprobados.innerHTML=resp.slice(0, -2);;
 }
 
+function callPromise(){
+
+    fetch('./assets/cursos.json')
+    .then((response) => {
+        if (response.ok) {
+            return response.json(); 
+        } else {
+            Toastify({
+                text: "Error al cargar los datos del curso",        
+                duration: 5000,
+                close: true,
+                gravity: 'bottom',
+                stopOnFocus: true,
+                style: {
+                    background: "linear-gradient(to right, #ff5f6d, #ffc371)",
+                  }
+                }).showToast();
+        }
+    })
+    .then((cursos) => {
+        let id = 0;
+        hCurso.innerHTML = `Curso: ${cursos[id].curso}`;
+        hProfesor.innerHTML = `Profesor: ${cursos[id].profesor}`;
+    })
+}
 
 eventsListeners();
 
 console.log(alumnos);
 
-fetch('./assets/cursos.json')
-    .then((response) => {
-        if (response.ok) {
-            return response.json(); 
-        } else {
-            console.log('hubo una response distinta a 200');
-        }
-    })
-    .then((cursos) => {
-        console.log(cursos);
-    })
+
 
 
