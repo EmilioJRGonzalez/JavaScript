@@ -1,0 +1,12 @@
+[
+    {
+        "id": 1,
+        "materia": "JavaScript",
+        "profesor": "Melina Garcia"
+    },
+    {
+        "id": 2,
+        "materia": "Desarrollo Web",
+        "profesor": "Gisele Gonzalez"
+    }
+]

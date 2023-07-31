@@ -1,10 +1,5 @@
 
-debugger;
-let respuesta = '';
-const CANT = 2;
-
 const alumnos = [];
-notas = [];
 
 const tabla = document.getElementById('tabla');
 const frmAgregar = document.querySelector('#frmAgregar');
@@ -13,6 +8,7 @@ const nombre = document.getElementById('inputNombre');
 const nota1 = document.getElementById('inputNota1');
 const nota2 = document.getElementById('inputNota2');
 const hAprobados = document.getElementById('aprobados');
+
 
 function eventsListeners()
 {
@@ -23,18 +19,50 @@ function eventsListeners()
     ///event listener de agregar un alumno a la grilla
     frmAgregar.addEventListener('submit', (e) =>
     {
-    e.preventDefault();
+        e.preventDefault();
 
-    agregarAlumno();
+        if (datosCorrectos()){
 
-    actualizarAlumnos();
+            agregarAlumno();
 
-    console.log(alumnos);
+            actualizarAlumnos();
 
-    limpiarFormulario(frmAgregar);
+            console.log(alumnos);
+
+            limpiarFormulario(frmAgregar);
+
+        }
 
     });
 
+}
+
+function datosCorrectos (){
+    resp = true;
+    aux = '';
+
+    if (nombre.value == '' || nombre.value.length < 2){
+        aux = '- El valor ingresado en Nombre es incorrecto <br>'
+    }
+    if (+nota1.value < 0 || +nota1.value > 10 || isNaN(+nota1.value)){
+        aux = aux + '- El valor Nota 1° parcial es incorrecto <br>'
+    }
+    if (+nota2.value < 0 || +nota2.value > 10 || isNaN(+nota2.value)){
+        aux = aux + '- El valor Nota 2° parcial es incorrecto <br>'
+    }
+
+    if (aux != ''){
+        resp = false;
+
+        Swal.fire({
+            icon: 'error',
+            title: 'Solucione los siguientes errores',
+            html: aux
+        })
+    }  
+
+    return resp;
+    
 }
 
 function agregarAlumno(){
@@ -43,6 +71,19 @@ function agregarAlumno(){
     alumno.ingresarNota(+nota2.value);
 
     alumnos.push(alumno);
+
+    toast();
+}
+
+function toast(){
+
+    Toastify({
+        text: "Alumno agregado a la lista",        
+        duration: 5000,
+        close: true,
+        gravity: 'bottom',
+        stopOnFocus: true     
+        }).showToast();
 }
 
 function limpiarFormulario(formulario) {
@@ -86,10 +127,6 @@ function actualizarTabla(){
     );
     tabla.innerHTML = output;
 
-    // alumnos.forEach((alumno) => {
-    //     respuesta = respuesta + alumno.getResumen() + ' | Promedio: ' + alumno.getPromedio();
-    // });
-
     getAprobados(alumnos)
 }
 
@@ -99,12 +136,12 @@ function getAprobados(alumnos) {
     const aprobados = alumnos.filter((alumno) => alumno.getPromedio() > 6);
 
     if (aprobados.length > 0) {
-        resp = '\n\nALUMNOS APROBADOS:\n' ;
+        resp = 'ALUMNOS APROBADOS: ' ;
         aprobados.forEach((aprobado) => {
             resp = resp + aprobado.nombre.toUpperCase() + ', ';
         });
     } else {
-        resp = '\n\nNO HAY ALUMNOS APROBADOS  ';
+        resp = 'NO HAY ALUMNOS APROBADOS  ';
     }
 
     hAprobados.innerHTML=resp.slice(0, -2);;
@@ -115,5 +152,16 @@ eventsListeners();
 
 console.log(alumnos);
 
+fetch('./assets/cursos.json')
+    .then((response) => {
+        if (response.ok) {
+            return response.json(); 
+        } else {
+            console.log('hubo una response distinta a 200');
+        }
+    })
+    .then((cursos) => {
+        console.log(cursos);
+    })
 
 
