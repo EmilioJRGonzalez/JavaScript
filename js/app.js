@@ -3,7 +3,7 @@ const alumnos = [];
 
 const tabla = document.getElementById('tabla');
 const frmAgregar = document.querySelector('#frmAgregar');
-const btnAgregar = document.querySelector('#btnAgregar');
+const btnLimpiar = document.querySelector('#btnLimpiar');
 const nombre = document.getElementById('inputNombre');
 const nota1 = document.getElementById('inputNota1');
 const nota2 = document.getElementById('inputNota2');
@@ -34,6 +34,18 @@ function eventsListeners()
             limpiarFormulario(frmAgregar);
 
         }
+
+    });
+
+    btnLimpiar.addEventListener('click', () =>{
+
+        localStorage.clear();
+
+        while (alumnos.length > 0) {
+            alumnos.pop();
+        }
+
+        traerAlumnos();
 
     });
 
